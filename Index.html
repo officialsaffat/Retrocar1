@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>THE BEST MOBILE GAME EVER</title>
+    <style>
+        /* 12-year-old style: everything is centered and BIG */
+        body { background: white; text-align: center; font-family: sans-serif; margin: 0; overflow: hidden; }
+        canvas { border: 5px solid black; background: white; margin-top: 10px; width: 90%; max-width: 300px; }
+        .btn-box { margin-top: 20px; }
+        .move-btn { width: 80px; height: 80px; font-size: 30px; background: black; color: white; border: none; }
+        h1 { font-size: 20px; margin: 5px; }
+    </style>
+</head>
+<body>
+
+    <h1>BEAT THE HIGH SCORE!!!!!</h1>
+    <canvas id="g" width="300" height="400"></canvas>
+
+    <div class="btn-box">
+        <button class="move-btn" onpointerdown="move(-40)">L</button>
+        <button class="move-btn" onpointerdown="move(40)">R</button>
+    </div>
+
+    <script>
+        var c = document.getElementById("g");
+        var x = c.getContext("2d");
+        var px = 130, ex = 50, ey = 0, s = 0, spd = 3;
+
+        function move(dir) { px += dir; }
+
+        function loop() {
+            x.clearRect(0, 0, 300, 400);
+            
+            // Player
+            x.fillStyle = "black";
+            x.fillRect(px, 350, 40, 40);
+
+            // Enemy
+            x.fillRect(ex, ey, 40, 40);
+            ey += spd;
+
+            // Reset enemy
+            if (ey > 400) {
+                ey = 0;
+                ex = Math.random() * 260;
+                s++;
+                spd += 0.3;
+            }
+
+            // Hit detection
+            if (ey > 310 && ey < 390 && ex < px + 40 && ex + 40 > px) {
+                alert("YOU LOSE!! SCORE: " + s);
+                s = 0; ey = 0; spd = 3; px = 130;
+            }
+
+            x.fillText("SCORE: " + s, 10, 20);
+            requestAnimationFrame(loop);
+        }
+        loop();
+    </script>
+</body>
+</html>
